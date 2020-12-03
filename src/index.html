@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./img/meteorite.png" type="image/x-icon">
+    <title>Asteroids</title>
+</head>
+<body>
+    <div class="container">
+        <form class="input">
+            <div class="input__start">
+                <span>Start Date:</span>
+                <input type="date" class="input__field-start" value="1967-12-05" required>
+            </div>
+            
+            <div class="input__end">
+                <span>End Date:</span>
+                <input type="date" class="input__field-end" value="1967-12-10">
+            </div>
+            <button type="button" class="input__btn btn" onclick="this.disabled = true">Prikazi Asteroide</button>
+        </form>
+    </div>
+    <div class="out">
+
+    </div>
+    <table>
+        <thead>
+            <th>Datum</th>
+            <th>Ime</th>
+            <th>Brzina kretanja (km/h)</th>
+            <th>Min. Precnik (m)</th>
+            <th>Max. Precnik (m)</th>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+
+<div class="list-container">
+    <div class="autocomplete-box">
+    <label class="asteroid-label" for="asteroids">Izaberi asteroid:</label>
+    <input list="asteroid-list" name="asteroids" id="asteroids">
+    <datalist id="asteroid-list"></datalist>
+
+    <button class="testBtn btn">click me</button>
+    </div>
+   
+    <div class="selection-list">
+        <h4>Lista izabranih asteroida:</h4>
+        <ul class="selected-asteroids"></ul>
+        <button class="chartPageBtn btn">Broj prolazaka pored Zemlje</button>
+    </div>
+</div>
+
+</body>
+</html>
+

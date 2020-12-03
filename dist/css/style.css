@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    margin: 3rem auto;
+    width: 50vw;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    font-size: 1.8rem;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input__start, .input__end {
+    padding: 1rem;
+}
+
+.btn {
+    background-image: linear-gradient(to right, #031b46, #292e49);
+    color: white;
+    border-radius: 10rem;
+    border: none;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 1rem;
+    outline: none;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+table {
+    width: 95vw;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: rgba(204, 204, 204, 0.596);
+}
+
+td, th {
+    border: 1px solid #030303;
+    font-size: 1.8rem;
+    padding: .8rem;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 3rem 0;
+}
+
+.autocomplete-box label {
+    font-size: 2rem;
+    padding: .5rem;
+}
+
+.selection-list h4 {
+    padding-bottom: 2rem;
+    font-size: 2rem;
+}
+
+ul li {
+    list-style: none;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+.chart-container {
+    margin: 4rem auto;
+    font-size: 2rem;
+    width: 90vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.prevPageBtn {
+    margin: 3rem 0 2rem 2rem;
+}
+
+.chart-container > * {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.chart-container > * > * {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container > * > * > *{
+    text-align: center;
+    line-height: 5rem;
+    margin: 0 1rem 1rem 0;
+}
