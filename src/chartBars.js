@@ -6,21 +6,6 @@ previousPageBtn.addEventListener('click', function() {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const chartContainer = document.querySelector('.chart-container');
 
 
@@ -58,8 +43,9 @@ chart.forEach( (chart, ind) => {
     chartsValue.appendChild(chart);
     chart.innerHTML = numOfApproach[ind];
 
-    let chartStyle = numOfApproach[ind] * 20;
+    let chartStyle = numOfApproach[ind] * 15;
     chart.style.width = `${chartStyle}px`;
+    console.log(chartStyle);
     
 });
 

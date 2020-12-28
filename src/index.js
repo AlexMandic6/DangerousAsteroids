@@ -1,114 +1,137 @@
-import { DOMstrings } from "./base";
+import { getDomString } from "./base";
 import { fetchData } from "./fetchData";
+import { getDateRange } from "./dateRange";
 import { makeTable } from "./table";
 import { asteroidList } from "./autocomplete";
 import { makeChart } from "./chart";
+import { sortByStringProperty, sortByNumberProperty } from "./tableSort";
 
-document.querySelector('.input__btn').addEventListener('click', myFunction);
-
-
-const tableData = {
-    dateOfApproach: [],
-    name: [],
-    speed: [],
-    minDiameter: [],
-    maxDiameter: [],
-    id: []
+function setupEventListeners() {
+    getDomString('showAsteroidBtn').addEventListener('click', mainDataHandle);
+    getDomString('testBtn').addEventListener('click', selectedAsteroids);
+    getDomString('selectedAsteroidsList').addEventListener('click', deleteAsteroid);
+    document.querySelector('.chartPageBtn').addEventListener('click', numOfPassesAroundEarth);
 }
 
+export const goToPage = function(page) {
+    window.location = page;
+  }
 
-function myFunction() {
-    let startDate = DOMstrings.inputFieldStart.value;
-    let endDate = DOMstrings.inputFieldEnd.value;
-    let dateRange = parseInt(endDate.replace(/-/g, ""),10) - parseInt(startDate.replace(/-/g, ""),10);
-    if(dateRange <= 7) {
+const tableData = [];
 
+function mainDataHandle() {
+    let startDate = getDomString('inputFieldStart').value;
+    let endDate = getDomString('inputFieldEnd').value;
+    
+    if(getDateRange(startDate, endDate)) {
         fetchData(startDate, endDate).then(objects => {
-            const DangerousAsteroids = [];
+            const dangerousAsteroids = [];
+            const ID = [];
 
             for(const prop in objects) {
                 for(let i = 0; i < objects[prop].length; i++) {
                     let item = objects[prop][i];
                     if(item.is_potentially_hazardous_asteroid === true) {
-                        DangerousAsteroids.push(item);
+                        dangerousAsteroids.push(item);
                     }
-                }  
-                
+                }   
             }
-            for(const prop in DangerousAsteroids) {
 
+            for(const prop in dangerousAsteroids) {
                 let date, name, speed, maxDia, minDia, asteroidID;
     
-                date = DangerousAsteroids[prop].close_approach_data[0].close_approach_date;
-    
-                name = DangerousAsteroids[prop].name;
-    
-                speed = DangerousAsteroids[prop].close_approach_data[0].relative_velocity.kilometers_per_hour;
-    
-                maxDia = DangerousAsteroids[prop].estimated_diameter.meters.estimated_diameter_max;
-    
-                minDia = DangerousAsteroids[prop].estimated_diameter.meters.estimated_diameter_min;
+                date = dangerousAsteroids[prop].close_approach_data[0].close_approach_date;
+                name = dangerousAsteroids[prop].name;
+                speed = dangerousAsteroids[prop].close_approach_data[0].relative_velocity.kilometers_per_hour;
+                maxDia = dangerousAsteroids[prop].estimated_diameter.meters.estimated_diameter_max;
+                minDia = dangerousAsteroids[prop].estimated_diameter.meters.estimated_diameter_min;
+                asteroidID = dangerousAsteroids[prop].id;
 
-                asteroidID = DangerousAsteroids[prop].id;
-              
-                tableData.dateOfApproach.push(date);
-                tableData.name.push(name);
-                tableData.speed.push(speed);
-                tableData.maxDiameter.push(maxDia);
-                tableData.minDiameter.push(minDia);
-                tableData.id.push(asteroidID);
+                ID.push(asteroidID);
 
-                // console.log(DangerousAsteroids[prop]);
+                tableData.push({dateOfApproach: date, name: name, speed: speed, maxDiameter: maxDia, minDiameter: minDia});
             };
-
+            
             makeTable(tableData);
-            asteroidList(tableData.name, tableData.id);
-            // console.log(tableData.id);
-           
+            asteroidList(tableData, ID);
+
+            let sortDirection = true;
+            document.querySelector('tr').addEventListener('click', sort => {
+                if(sort.target.innerHTML === 'Ime') {
+                    sort = sortByStringProperty;
+                    sort(tableData, sortDirection,'name');
+                    sortDirection = !sortDirection;
+                    makeTable(tableData);
+
+                } else if (sort.target.innerHTML === 'Datum') {
+                    sort = sortByStringProperty;
+                    sort(tableData, sortDirection, 'dateOfApproach');
+                    sortDirection = !sortDirection;
+                    makeTable(tableData);
+                } else if (sort.target.innerHTML === 'Brzina kretanja (km/h)') {
+                    sort = sortByNumberProperty;
+                    sort(tableData, sortDirection, 'speed');
+                    sortDirection = !sortDirection;
+                    makeTable(tableData);
+                } else if (sort.target.innerHTML === 'Min. Precnik (m)') {
+                    sort = sortByNumberProperty;
+                    sort(tableData, sortDirection, 'minDiameter');
+                    sortDirection = !sortDirection;
+                    makeTable(tableData);
+                } else if (sort.target.innerHTML === 'Max. Precnik (m)') {
+                    sort = sortByNumberProperty;
+                    sort(tableData, sortDirection, 'maxDiameter');
+                    sortDirection = !sortDirection;
+                    makeTable(tableData);
+                }
+            });
         });
-    } else {
-        alert('Maximum range between start and end date is 7 days!');
     }
 }
 
-/////////////////////////////////////////////////////////////////////
-document.querySelector('.testBtn').addEventListener('click', selectedAsteroids);
-
 function selectedAsteroids() {
-    const ul = document.querySelector('.selected-asteroids');
-    const value = DOMstrings.asteroidInput.value;
+
+    const selectedAsteroidList = document.querySelector('.selected-asteroids');
+    const value = getDomString('asteroidInput').value;
     const datasetOptions = document.querySelectorAll('option');
-    let input =  DOMstrings.asteroidInput;
+    let input =  getDomString('asteroidInput');
     if(!value) return;
     datasetOptions.forEach(opt => {
         if(opt.value === value) {
         let listItem = document.createElement('li');
         listItem.setAttribute('data-id', opt.getAttribute('data-id'));
         listItem.innerHTML = value;
-        ul.appendChild(listItem);
-        listItem.classList.add('chosen-asteroid')
-        console.log(listItem, ul);
-    
+        selectedAsteroidList.appendChild(listItem);
+        listItem.classList.add('chosen-asteroid');
+
+        let deleteBtn = `<button class="btn-delete">
+        <i class="ion-ios-close-outline"></i> 
+     </button>`;
+        listItem.innerHTML += deleteBtn;
+        opt.remove();
         input.value = '';
-
-
-        numOfPassesBtn();
     }
     });
  };
 
-export const goToPage = function(page) {
-    window.location = page;
-  }
+ function deleteAsteroid(e) {
+    let itemId = e.target.parentElement.parentElement;
+
+    if(e.target.parentElement.matches('.btn-delete')) {
+       let autocompleteList = document.querySelector('#asteroid-list');
+       let returnDeletedElement = document.createElement('option');
+       returnDeletedElement.setAttribute('value', itemId.childNodes[0].nodeValue);
+       returnDeletedElement.setAttribute('data-id', itemId.getAttribute('data-id'));
+       autocompleteList.appendChild(returnDeletedElement);
+       itemId.parentNode.removeChild(itemId);
+
+    }
+ }
 
 
-
-function numOfPassesBtn() {
-     const timesBtn = document.querySelector(".chartPageBtn");
+function numOfPassesAroundEarth() {
      const chosenAsteroids = document.querySelectorAll(".chosen-asteroid");
-     console.log(chosenAsteroids.length);
-        
-     timesBtn.addEventListener("click", function() {
+
          if (chosenAsteroids.length > 0) {
           makeChart(chosenAsteroids);
           return (function() {
@@ -119,6 +142,10 @@ function numOfPassesBtn() {
         } else {
           alert("Please select asteroids from table!");
         }
-      });
   }
   
+
+function init() {
+    setupEventListeners();
+}
+init();

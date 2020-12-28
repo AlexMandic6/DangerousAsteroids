@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" href="./img/meteorite.png" type="image/x-icon">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <title>Asteroids</title>
 </head>
 <body>
@@ -12,13 +13,14 @@
         <form class="input">
             <div class="input__start">
                 <span>Start Date:</span>
-                <input type="date" class="input__field-start" value="1967-12-05" required>
+                <input type="date" class="input__field-start" required>
             </div>
             
             <div class="input__end">
                 <span>End Date:</span>
-                <input type="date" class="input__field-end" value="1967-12-10">
+                <input type="date" class="input__field-end">
             </div>
+            <!-- Zameniti za e.preventDefault() u .js fajlu -->
             <button type="button" class="input__btn btn" onclick="this.disabled = true">Prikazi Asteroide</button>
         </form>
     </div>
