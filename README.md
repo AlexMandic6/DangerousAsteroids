@@ -4,4 +4,4 @@
 
 -You can choose some asteroids from the list and with a click on the button you see chart that visually shows number of passes around the Earth.
 
--Soon adding few options, removing some bugs and improving overall code.
+-Added sorting option for each column in table header. Made code a little bit cleaner and fixed some bugs.
