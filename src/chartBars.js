@@ -5,9 +5,7 @@ previousPageBtn.addEventListener('click', function() {
     window.location = 'index.html';
 });
 
-
 const chartContainer = document.querySelector('.chart-container');
-
 
 const charts = document.createElement('displayChart');
 charts.innerHTML = '';
@@ -17,7 +15,6 @@ charts.innerHTML = JSON.parse(localStorage.getItem('item'));
 const numOfApproach = JSON.parse(localStorage.getItem('numOfApproach'));
 chartContainer.appendChild(charts);
 
-//testing
 const chartsName = document.createElement('div');
 
 chartsName.className = 'charts-name';
@@ -28,11 +25,8 @@ chartsValue.className = 'charts-value';
 charts.appendChild(chartsName);
 charts.appendChild(chartsValue);
 
-//////////////
-
 
 const chart = document.querySelectorAll('.chart');
-
 
 const chartItem = document.querySelectorAll('.chart-item');
 chartItem.forEach(item => {
@@ -45,12 +39,8 @@ chart.forEach( (chart, ind) => {
 
     let chartStyle = numOfApproach[ind] * 15;
     chart.style.width = `${chartStyle}px`;
-    console.log(chartStyle);
     
 });
-
-// console.log(chart);
-// console.log(charts);
 
 function bars() {
     chart.forEach( (e, index) => {

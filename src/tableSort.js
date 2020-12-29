@@ -7,8 +7,7 @@ export const sortByStringProperty = function(data, sortDirection, property) {
              data.sort((a,b) => {
                 return b[property].localeCompare(a[property])
             });
-        }
-        
+        }    
 }
 
 export const sortByNumberProperty = function(data, sortDirection, property) {

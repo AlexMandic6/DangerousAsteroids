@@ -1,4 +1,3 @@
-
 const DOMstrings = {
     inputFieldStart: document.querySelector('.input__field-start'),
     inputFieldEnd: document.querySelector('.input__field-end'),
@@ -12,10 +11,6 @@ const DOMstrings = {
 export function getDomString(domStringName) {
         return DOMstrings[domStringName];
     }
-
-// export function getDomString(domStringName) {
-//     return DOMstrings[domStringName]
-// }
 
 //Primeniti get metode, drzati podatke privatnim i immutable
 
